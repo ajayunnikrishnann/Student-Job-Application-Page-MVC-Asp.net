@@ -1,0 +1,62 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Linq
+
+
+
+@model IEnumerable<StudentJobApplication.Models.StudentApplication>
+
+@{
+    ViewBag.Title = "Student Applications";
+}
+
+<h2>Student Applications</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary", style = "background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; border-radius: 8px;" })
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Photo</th>
+            <th>Resume</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>
+                    @if (item.PhotoBase64 != null)
+                    {
+                        <img src="data:image;base64,@item.PhotoBase64" alt="Student Photo" style="width: 100px; height: 100px; border: 2px solid #ddd; border-radius: 8px; padding: 5px;" />
+                    }
+                </td>
+
+                <td>
+                    @if (item.ResumeBase64 != null)
+                    {
+                        <a href="data:application/pdf;base64,@item.ResumeBase64" download="Resume.pdf" style="display: inline-block; padding: 6px 12px; color: #fff; background-color: #28a745; border: none; border-radius: 4px; text-decoration: none;">Download Resume</a>
+                    }
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }, new { @style = "display: inline-block; padding: 6px 12px; margin-right: 5px; color: #fff; background-color: #007bff; border: none; border-radius: 4px; text-decoration: none;" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.StudentID }, new { @style = "display: inline-block; padding: 6px 12px; margin-right: 5px; color: #fff; background-color: #dc3545; border: none; border-radius: 4px; text-decoration: none;" })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
